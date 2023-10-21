@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brain Bleeding Detection</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.jpg') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"  rel="stylesheet" />
+  <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      /* Gaya untuk pesan alert */
+      .floating-alert {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          width: calc(100% - 40px); /* Lebar full dengan jarak padding */
+          background-color: #f7fafc;
+          border: 1px solid #cbd5e0;
+          border-radius: 0.375rem;
+          padding: 1rem;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          animation: floatIn 0.5s ease-in-out;
+      }
+  
+      /* Animasi untuk efek pengambangan */
+      @keyframes floatIn {
+          0% {
+              opacity: 0;
+              transform: translateY(20px);
+          }
+          100% {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+  </style>
+ 
+
+</head>
+<body class="bg-gray-100">
+  <div id="flash-alert" class="hidden floating-alert bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-md mt-4">
+    <div class="flex items-center justify-between">
+      <p class="font-bold">Success</p>
+      <button id="close-alert" class="text-green-500 hover:text-green-700">X</button>
+    </div>
+    <p id="alert-message"></p>
+  </div>
+
+  <div id="flash-alert-red" class="hidden floating-alert bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-md mt-4">
+    <div class="flex items-center justify-between">
+      <p class="font-bold">Caution</p>
+      <button id="close-alert-red" class="text-red-500 hover:text-red-700">X</button>
+    </div>
+    <p id="alert-message-red"></p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+          const alertDiv = document.getElementById('flash-alert');
+          const alertDivRed = document.getElementById('flash-alert-red');
+          const closeBtn = document.getElementById('close-alert');
+          const closeBtnRed = document.getElementById('close-alert-red');
+          const alertMessage = document.getElementById('alert-message');
+          const alertMessageRed = document.getElementById('alert-message-red');
+
+          function fadeOut(element, duration) {
+              const startOpacity = parseFloat(getComputedStyle(element).opacity);
+              let currentTime = 0;
+
+              const interval = setInterval(function() {
+                  currentTime += 10;
+                  element.style.opacity = 1 - (currentTime / duration);
+                  
+                  if (currentTime >= duration) {
+                      clearInterval(interval);
+                      element.style.display = 'none';
+                  }
+              }, 10);
+          }
+
+          closeBtn.addEventListener('click', function() {
+              alertDiv.style.display = 'none';
+          });
+
+          closeBtnRed.addEventListener('click', function(){
+              alertDivRed.style.display = 'none';
+          });
+
+          // Cek apakah pesan alert ada dari Flask
+          const flaskAlert = "{{ alert }}";
+          if(flaskAlert){
+            if (flaskAlert == "File uploaded successfully" || flaskAlert == "Healthy Brain Image.") {
+              alertMessage.textContent = flaskAlert;
+              alertDiv.style.display = 'block';
+              setTimeout(function() {
+                  fadeOut(alertDiv, 300);
+              }, 3000);
+            } else{
+              alertMessageRed.textContent = flaskAlert;
+              alertDivRed.style.display = 'block';
+              setTimeout(function() {
+                  fadeOut(alertDivRed, 300);
+              }, 3000);
+            }
+          }
+      });
+  </script>
+
+  <section class="bg-white dark:bg-gray-900">
+      <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+          <div class="mr-auto place-self-center lg:col-span-7">
+              <a href="/">
+                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">Brain Bleeding Detector</h1>
+                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Utilizes advanced image processing and technology to identify signs of bleeding in medical images related to the brain, thereby aiding in earlier diagnosis and more effective treatment.</p>
+              </a>
+              
+              <a href="#upload-form" scroll="true" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
+                  Get started
+                  <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              </a>
+          </div>
+          <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+              <img src="{{ url_for('static', filename='brain-mockup.jpg') }}" alt="mockup">
+          </div>                
+      </div>
+  </section>
+
+  <section id="upload-form" class="bg-white py-8">
+    <div class="container mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-4">Upload Brain Scan Image</h2>
+      <form class="max-w-md mx-auto p-4 border rounded-lg mb-8" action="/upload#detection-process" method="post" enctype="multipart/form-data">
+        <div class="mb-4">
+          <label for="image" class="block font-semibold mb-2">Select Image:</label>
+          <input type="file" id="image" name="image" accept="image/*" class="border p-2 w-full">
+        </div>
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Submit</button>
+      </form>
+    </div>
+  </section>
+  
+  <section id="detection-process" class="hidden bg-white py-8">
+      <div class="container mx-auto text-center">
+          <h2 class="text-2xl font-bold mb-4">Start Brain Bleeding Detection</h2>
+          <form class="mx-auto p-4 border rounded-lg" action="/process#detection-process" method="post" enctype="multipart/form-data">
+              <div class="flex justify-center space-x-8">
+                  <div class="flex flex-col items-center">
+                      <h3 class="font-semibold mb-2">Uploaded Image</h3>
+                      <img src="data:image/png;base64,{{ plot_img }}" class="w-96 h-96 object-cover">
+                  </div>
+                  <div class="flex flex-col items-center">
+                      <h3 class="font-semibold mb-2">Detection Result</h3>
+                      <img src="data:image/png;base64,{{ plot_url }}" class="w-96 h-96 object-cover">
+                  </div>
+              </div>
+              <div id="detection-submit-button" class="flex justify-center mt-4">
+                  <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Detect</button>
+              </div>
+              <div id="rth-button" class="hidden flex justify-center mt-4">
+                <a href="/" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Return to Home</a>
+            </div>
+          </form>
+      </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+          const detectDiv = document.getElementById('detection-process');
+          const btnSubmitDetect =  document.getElementById('detection-submit-button');
+          const btnRth = document.getElementById('rth-button');
+
+          // Cek apakah pesan alert ada dari Flask
+          const plotImg = "{{ plot_img }}";
+          if(plotImg){
+            detectDiv.style.display = "block";
+          }
+
+          const plotUrl = "{{ plot_url }}";
+          if(plotUrl){
+            btnSubmitDetect.style.display = "none";
+            btnRth.style.display = "block";
+          }
+      });
+  </script>
+
+  <script>
+    document.addEventListener('click', function (event) {
+      if (event.target.tagName === 'A' && event.target.getAttribute('scroll') === 'true') {
+        event.preventDefault();
+        const targetId = event.target.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  </script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+</body>
+</html>
