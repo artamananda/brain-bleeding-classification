@@ -4,7 +4,7 @@ Brain Bleeding Detection is a project focused on detecting and analyzing brain b
 
 ## Prerequisites
 
-- Python (recommended version: [python_version])
+- Python (recommended version: 3.8)
 - Conda (for environment management)
 
 ## Installation
