@@ -12,7 +12,7 @@ Brain Bleeding Detection is a project focused on detecting and analyzing brain b
 1. Clone or download the repository:
 
    ```bash
-   git clone https://github.com/artamanadna/brain-bleeding-detection.git
+   git clone https://github.com/artamananda/brain-bleeding-detection.git
    ```
 
 2. Navigate to the project directory:
