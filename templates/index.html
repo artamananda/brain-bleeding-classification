@@ -155,9 +155,21 @@
                       <img src="data:image/png;base64,{{ plot_url }}" class="w-96 h-96 object-cover">
                   </div>
               </div>
-              <div id="detection-submit-button" class="flex justify-center mt-4">
-                  <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Detect</button>
-              </div>
+              <div id="detection-submit-button" class="flex justify-center mt-4 items-center">
+                <div class="mr-3">
+                    <label for="detection-threshold" class="block text-sm font-semibold mb-2 text-left">Threshold</label>
+                    <div class="mr-3">
+                      <select id="detection-threshold" name="detection_threshold" class="w-48 px-2 py-1 border rounded">
+                        <option value="t03">0.3</option>
+                        <option value="t04">0.4</option>
+                        <option value="t05">0.5</option>
+                        <option value="t06">0.6</option>
+                        <option value="t07">0.7</option>
+                    </select>
+                    <button type="submit" class="bg-blue-600 text-white ml-3 py-2 px-4 rounded hover:bg-blue-700">Detect</button>
+                    </div>
+                </div>
+            </div>
               <div id="rth-button" class="hidden flex justify-center mt-4">
                 <a href="/" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Return to Home</a>
             </div>
