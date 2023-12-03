@@ -24,7 +24,7 @@ Brain Bleeding Detection is a project focused on detecting and analyzing brain b
 3. Create and activate the Conda environment:
 
    ```bash
-   conda env create -f environment.yml
+   ./install.sh
    conda activate brain-env
    ```
 
