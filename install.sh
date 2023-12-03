@@ -34,11 +34,11 @@ download_file() {
 # Start the installation
 echo "Starting the installation..."
 
-# # Check if Conda is installed
-# check_conda
+# Check if Conda is installed
+check_conda
 
-# # Create and activate the Conda environment
-# create_activate_conda_env
+# Create and activate the Conda environment
+create_activate_conda_env
 
 # Download the file using wget
 download_file
